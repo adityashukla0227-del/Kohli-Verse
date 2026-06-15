@@ -1,21 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KohliVerse</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family: Arial, sans-serif;
+  font-family:'Poppins',sans-serif;
 }
 
 body{
-  background:#0B0B0B;
+  background:#0a0a0a;
   color:#fff;
+  overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+  display:flex;
+  justify-content:space-between;
+  padding:20px 50px;
+  position:fixed;
+  width:100%;
+  top:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  z-index:1000;
+}
+
+nav h2{
+  color:#E53935;
+}
+
+nav a{
+  color:#aaa;
+  margin-left:20px;
+  text-decoration:none;
 }
 
 /* HERO */
@@ -24,44 +51,79 @@ body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:50px;
+  padding:100px 50px 50px;
 }
 
-.hero h1{
-  font-size:60px;
+.hero-text h1{
+  font-size:70px;
   color:#E53935;
+  animation:fade 1s ease-in;
 }
 
-.hero p{
-  margin-top:10px;
+.hero-text p{
   color:#bbb;
+  margin-top:10px;
   max-width:400px;
 }
 
 .btn{
   margin-top:20px;
-  padding:10px 20px;
+  padding:12px 25px;
   border:none;
   background:#E53935;
   color:#fff;
+  border-radius:8px;
   cursor:pointer;
-  border-radius:5px;
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px #E53935;
 }
 
 .hero img{
-  width:300px;
-  border-radius:10px;
-  box-shadow:0 0 20px #E53935;
+  width:320px;
+  border-radius:15px;
+  box-shadow:0 0 30px #E53935;
+  animation:float 3s ease-in-out infinite;
 }
 
 /* SECTION */
 .section{
-  padding:60px 40px;
+  padding:80px 50px;
 }
 
 .section h2{
   color:#E53935;
-  margin-bottom:20px;
+  margin-bottom:30px;
+  font-size:30px;
+}
+
+/* GLASS CARD */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:rgba(255,255,255,0.05);
+  padding:25px;
+  border-radius:15px;
+  backdrop-filter: blur(10px);
+  text-align:center;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 0 25px rgba(229,57,53,0.3);
+}
+
+.card h3{
+  color:#E53935;
+  font-size:28px;
 }
 
 /* TIMELINE */
@@ -72,34 +134,47 @@ body{
 
 .event{
   margin-bottom:20px;
+  color:#ccc;
 }
 
-/* CARDS */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:20px;
-}
-
-.card{
-  background:#161616;
-  padding:20px;
-  border-radius:10px;
-  text-align:center;
-  box-shadow:0 0 10px rgba(229,57,53,0.2);
-}
-
-.card h3{
+.event span{
   color:#E53935;
-  font-size:24px;
+  font-weight:600;
 }
 
 /* FOOTER */
 footer{
   text-align:center;
   padding:20px;
-  color:#777;
+  color:#666;
   border-top:1px solid #222;
+}
+
+/* ANIMATIONS */
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-15px);}
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .hero-text h1{
+    font-size:45px;
+  }
+
+  nav{
+    padding:15px 20px;
+  }
 }
 </style>
 
@@ -107,36 +182,33 @@ footer{
 
 <body>
 
+<!-- NAV -->
+<nav>
+  <h2>KohliVerse</h2>
+  <div>
+    <a href="#timeline">Timeline</a>
+    <a href="#stats">Stats</a>
+  </div>
+</nav>
+
 <!-- HERO -->
 <div class="hero">
-  <div>
+  <div class="hero-text">
     <h1>KohliVerse</h1>
-    <p>The Legacy of Passion, Power & Performance</p>
-    <button class="btn" onclick="scrollToSection()">Explore</button>
+    <p>The Ultimate Digital Journey of Virat Kohli — Records, Passion & Legacy.</p>
+    <button class="btn" onclick="document.getElementById('stats').scrollIntoView({behavior:'smooth'})">
+      Explore Stats
+    </button>
   </div>
 
-  <img src="https://i.imgur.com/3ZQ3ZQF.png" alt="Virat Kohli"/>
-</div>
-
-<!-- TIMELINE -->
-<div class="section" id="timeline">
-  <h2>Career Timeline</h2>
-
-  <div class="timeline">
-    <div class="event">2008 - ODI Debut 🏏</div>
-    <div class="event">2011 - World Cup Winner 🏆</div>
-    <div class="event">2013 - Captaincy Rise</div>
-    <div class="event">2016 - Peak Performance 🔥</div>
-    <div class="event">2018 - ICC Awards Sweep 👑</div>
-    <div class="event">2023+ - Modern Legend</div>
-  </div>
+  <img src="https://i.imgur.com/3ZQ3ZQF.png" alt="Virat Kohli">
 </div>
 
 <!-- STATS -->
-<div class="section">
+<div class="section" id="stats">
   <h2>Records Dashboard</h2>
 
-  <div class="cards">
+  <div class="grid">
     <div class="card">
       <h3 class="counter" data-target="27000">0</h3>
       <p>Runs</p>
@@ -154,18 +226,27 @@ footer{
   </div>
 </div>
 
+<!-- TIMELINE -->
+<div class="section" id="timeline">
+  <h2>Career Timeline</h2>
+
+  <div class="timeline">
+    <div class="event"><span>2008</span> - ODI Debut 🏏</div>
+    <div class="event"><span>2011</span> - World Cup Winner 🏆</div>
+    <div class="event"><span>2013</span> - Captaincy Rise</div>
+    <div class="event"><span>2016</span> - Peak Form 🔥</div>
+    <div class="event"><span>2018</span> - ICC Awards Sweep 👑</div>
+    <div class="event"><span>2023+</span> - Modern Legend</div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
-  Made with ❤️ by Aditya | KohliVerse (Fan Project)
+  Made with ❤️ by Aditya | KohliVerse Fan Project
 </footer>
 
 <script>
-// smooth scroll
-function scrollToSection(){
-  document.getElementById("timeline").scrollIntoView({behavior:"smooth"});
-}
-
-// counter animation
+// COUNTER ANIMATION
 const counters = document.querySelectorAll(".counter");
 
 counters.forEach(counter=>{
@@ -173,12 +254,12 @@ counters.forEach(counter=>{
 
   const update = ()=>{
     const target = +counter.getAttribute("data-target");
-    const c = +counter.innerText;
+    const current = +counter.innerText;
 
-    const inc = target / 100;
+    const inc = target / 80;
 
-    if(c < target){
-      counter.innerText = Math.ceil(c + inc);
+    if(current < target){
+      counter.innerText = Math.ceil(current + inc);
       setTimeout(update,20);
     } else {
       counter.innerText = target;
