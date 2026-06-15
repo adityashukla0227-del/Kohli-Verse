@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KohliVerse — The Legacy</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #E53935;
+  --red-glow: rgba(229,57,53,0.35);
+  --red-dim: rgba(229,57,53,0.12);
+  --gold: #FFD700;
+  --bg: #080808;
+  --bg2: #101010;
+  --bg3: #161616;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+  --text: #f0f0f0;
+  --muted: #888;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-ui: 'Rajdhani', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px;}
+
+/* NAVBAR */
+nav {
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;height:60px;
+  background:rgba(8,8,8,0.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(229,57,53,0.15);
+  transition:all 0.3s;
+}
+.nav-logo {
+  font-family:var(--font-display);
+  font-size:1.6rem;letter-spacing:0.08em;
+  color:#fff;
+}
+.nav-logo span{color:var(--red);}
+.nav-links{display:flex;gap:1.8rem;list-style:none;}
+.nav-links a {
+  font-family:var(--font-ui);font-size:0.9rem;font-weight:500;
+  color:var(--muted);text-decoration:none;letter-spacing:0.06em;
+  text-transform:uppercase;transition:color 0.2s;
+  position:relative;
+}
+.nav-links a::after {
+  content:'';position:absolute;bottom:-4px;left:0;right:0;
+  height:1.5px;background:var(--red);
+  transform:scaleX(0);transition:transform 0.25s;
+}
+.nav-links a:hover,.nav-links a.active{color:#fff;}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1);}
+.nav-cta {
+  background:var(--red);color:#fff;border:none;
+  padding:8px 18px;border-radius:4px;
+  font-family:var(--font-ui);font-size:0.85rem;font-weight:600;
+  letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;
+  transition:box-shadow 0.2s,transform 0.15s;
+}
+.nav-cta:hover{box-shadow:0 0 18px var(--red-glow);transform:translateY(-1px);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.3s;}
+
+/* HERO */
+#hero {
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;text-align:center;
+  padding:80px 1rem 2rem;
+}
+#particles-canvas {
+  position:absolute;inset:0;z-index:0;
+}
+.hero-bg-text {
+  position:absolute;
+  font-family:var(--font-display);
+  font-size:clamp(8rem,20vw,18rem);
+  color:rgba(229,57,53,0.04);
+  letter-spacing:0.05em;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  white-space:nowrap;
+  pointer-events:none;
+  z-index:0;
+}
+.hero-content{position:relative;z-index:1;max-width:800px;}
+.hero-badge {
+  display:inline-block;
+  font-family:var(--font-ui);font-size:0.75rem;font-weight:600;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--red);border:1px solid rgba(229,57,53,0.4);
+  padding:5px 16px;border-radius:2px;
+  margin-bottom:1.5rem;
+  background:var(--red-dim);
+  opacity:0;animation:fadeUp 0.8s 0.2s forwards;
+}
+.hero-title {
+  font-family:var(--font-display);
+  font-size:clamp(4rem,14vw,11rem);
+  line-height:0.9;letter-spacing:0.03em;
+  color:#fff;
+  opacity:0;animation:fadeUp 0.8s 0.4s forwards;
+}
+.hero-title .accent{color:var(--red);display:block;}
+.hero-subtitle {
+  font-family:var(--font-ui);font-size:1rem;font-weight:400;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--muted);margin:1.2rem 0 2rem;
+  opacity:0;animation:fadeUp 0.8s 0.6s forwards;
+}
+.hero-btns {
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:fadeUp 0.8s 0.8s forwards;
+}
+.btn-primary {
+  background:var(--red);color:#fff;border:none;
+  padding:14px 32px;border-radius:4px;font-family:var(--font-ui);
+  font-size:1rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-block;
+}
+.btn-primary:hover{box-shadow:0 0 30px var(--red-glow);transform:translateY(-2px);}
+.btn-glass {
+  background:var(--glass);color:#fff;
+  border:1px solid var(--glass-border);
+  padding:14px 32px;border-radius:4px;font-family:var(--font-ui);
+  font-size:1rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-block;
+  backdrop-filter:blur(8px);
+}
+.btn-glass:hover{border-color:rgba(229,57,53,0.5);background:rgba(229,57,53,0.08);}
+.scroll-indicator {
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  opacity:0;animation:fadeIn 1s 1.2s forwards;
+}
+.scroll-indicator span{font-size:0.65rem;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--red),transparent);}
+
+/* SECTIONS */
+section{padding:6rem 2rem;}
+.section-eyebrow {
+  font-family:var(--font-ui);font-size:0.72rem;font-weight:600;
+  letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--red);margin-bottom:0.6rem;
+  display:flex;align-items:center;gap:10px;
+}
+.section-eyebrow::before{content:'';display:block;width:24px;height:1.5px;background:var(--red);}
+.section-title {
+  font-family:var(--font-display);
+  font-size:clamp(2.4rem,6vw,4.5rem);
+  letter-spacing:0.04em;color:#fff;
+  line-height:1;margin-bottom:0.5rem;
+}
+.section-desc{color:var(--muted);font-size:0.95rem;max-width:480px;line-height:1.7;margin-bottom:3rem;}
+.container{max-width:1100px;margin:0 auto;}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* STATS */
+#stats{background:var(--bg2);}
+.stats-grid {
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1px;background:var(--glass-border);border:1px solid var(--glass-border);
+  border-radius:8px;overflow:hidden;margin-bottom:3rem;
+}
+.stat-cell {
+  background:var(--bg3);padding:2rem 1.5rem;text-align:center;
+  transition:background 0.2s;
+  position:relative;overflow:hidden;
+}
+.stat-cell::after {
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--red);transform:scaleX(0);transition:transform 0.3s;
+}
+.stat-cell:hover{background:#1a1a1a;}
+.stat-cell:hover::after{transform:scaleX(1);}
+.stat-num {
+  font-family:var(--font-display);
+  font-size:3.2rem;color:var(--red);
+  letter-spacing:0.02em;line-height:1;
+}
+.stat-label{font-family:var(--font-ui);font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+.stat-sub{font-size:0.72rem;color:#555;margin-top:4px;}
+
+/* FORMAT STATS */
+.format-tabs{display:flex;gap:0;margin-bottom:1.5rem;border:1px solid var(--glass-border);border-radius:4px;overflow:hidden;width:fit-content;}
+.ftab {
+  padding:10px 22px;font-family:var(--font-ui);font-size:0.85rem;
+  font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  background:transparent;color:var(--muted);border:none;cursor:pointer;
+  transition:all 0.2s;
+}
+.ftab.active{background:var(--red);color:#fff;}
+.format-panel{display:none;}
+.format-panel.active{display:block;}
+.perf-row{display:flex;align-items:center;gap:16px;margin-bottom:14px;}
+.perf-label{width:100px;font-family:var(--font-ui);font-size:0.85rem;font-weight:500;letter-spacing:0.04em;color:var(--muted);flex-shrink:0;}
+.perf-track{flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden;}
+.perf-fill{height:100%;background:var(--red);border-radius:999px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1);}
+.perf-val{width:60px;text-align:right;font-family:var(--font-ui);font-size:0.9rem;font-weight:600;color:#fff;}
+
+/* TIMELINE */
+#timeline{background:var(--bg);}
+.timeline-wrap{position:relative;padding-left:2px;}
+.timeline-line {
+  position:absolute;left:20px;top:0;bottom:0;width:1px;
+  background:linear-gradient(to bottom,var(--red),rgba(229,57,53,0.1));
+}
+.t-item {
+  display:flex;gap:2rem;margin-bottom:3rem;position:relative;
+  padding-left:3.5rem;
+}
+.t-dot-wrap {
+  position:absolute;left:0;top:6px;
+  width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;
+}
+.t-dot {
+  width:14px;height:14px;border-radius:50%;
+  background:var(--red);
+  box-shadow:0 0 0 4px rgba(229,57,53,0.15),0 0 16px var(--red-glow);
+}
+.t-year {
+  font-family:var(--font-display);font-size:2.8rem;
+  color:rgba(229,57,53,0.15);letter-spacing:0.04em;
+  line-height:1;min-width:100px;
+  flex-shrink:0;
+}
+.t-content {
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:6px;padding:1.25rem 1.5rem;flex:1;
+  transition:border-color 0.2s,background 0.2s;
+}
+.t-content:hover{border-color:rgba(229,57,53,0.3);background:rgba(229,57,53,0.05);}
+.t-tag {
+  display:inline-block;font-family:var(--font-ui);font-size:0.65rem;
+  font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--red);border:1px solid rgba(229,57,53,0.3);
+  padding:2px 8px;border-radius:2px;margin-bottom:8px;
+}
+.t-title{font-family:var(--font-ui);font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:4px;}
+.t-desc{font-size:0.85rem;color:var(--muted);line-height:1.6;}
+
+/* GALLERY */
+#gallery{background:var(--bg2);}
+.gallery-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:12px;
+}
+.gallery-card {
+  position:relative;overflow:hidden;border-radius:6px;
+  background:var(--bg3);border:1px solid var(--glass-border);
+  aspect-ratio:4/3;cursor:pointer;
+}
+.gallery-card img {
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 0.4s ease,filter 0.4s;
+  filter:brightness(0.85) saturate(0.8);
+}
+.gallery-card:hover img{transform:scale(1.06);filter:brightness(1) saturate(1);}
+.gallery-overlay {
+  position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.8) 0%,transparent 50%);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;
+  opacity:0;transition:opacity 0.3s;
+}
+.gallery-card:hover .gallery-overlay{opacity:1;}
+.gallery-overlay-title{font-family:var(--font-ui);font-size:0.9rem;font-weight:700;color:#fff;letter-spacing:0.04em;}
+.gallery-overlay-cat{font-size:0.72rem;color:var(--red);letter-spacing:0.1em;text-transform:uppercase;}
+/* Placeholder colored cards when no img */
+.gcard-1{background:linear-gradient(135deg,#1a0a0a,#3a1010);}
+.gcard-2{background:linear-gradient(135deg,#0a0a1a,#101030);}
+.gcard-3{background:linear-gradient(135deg,#0a1a0a,#103010);}
+.gcard-4{background:linear-gradient(135deg,#1a1a0a,#303010);}
+.gcard-5{background:linear-gradient(135deg,#1a0a1a,#301030);}
+.gcard-6{background:linear-gradient(135deg,#0a1a1a,#103030);}
+.gallery-placeholder {
+  width:100%;height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;
+}
+.gallery-placeholder .emoji{font-size:2.5rem;}
+.gallery-placeholder .ph-label{font-family:var(--font-ui);font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.25);}
+
+/* ASK KOHLIVERSE */
+#ask{background:var(--bg);}
+.ask-wrap {
+  max-width:660px;margin:0 auto;
+  background:var(--bg3);border:1px solid var(--glass-border);
+  border-radius:8px;overflow:hidden;
+}
+.ask-header {
+  background:var(--red-dim);border-bottom:1px solid rgba(229,57,53,0.2);
+  padding:1rem 1.5rem;display:flex;align-items:center;gap:10px;
+}
+.ask-header-dot{width:8px;height:8px;border-radius:50%;background:var(--red);}
+.ask-header-title{font-family:var(--font-ui);font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#fff;}
+.chat-area{padding:1.5rem;min-height:280px;display:flex;flex-direction:column;gap:12px;}
+.chat-msg {
+  max-width:80%;padding:10px 14px;border-radius:6px;
+  font-size:0.88rem;line-height:1.55;
+}
+.chat-msg.bot {
+  background:var(--glass);border:1px solid var(--glass-border);
+  color:var(--text);align-self:flex-start;
+}
+.chat-msg.user {
+  background:var(--red);color:#fff;align-self:flex-end;
+}
+.chat-msg.bot strong{color:var(--red);}
+.ask-suggestions {
+  display:flex;flex-wrap:wrap;gap:8px;padding:0 1.5rem 1rem;
+}
+.suggest-btn {
+  background:var(--glass);border:1px solid var(--glass-border);
+  color:var(--muted);padding:6px 14px;border-radius:999px;
+  font-family:var(--font-ui);font-size:0.78rem;font-weight:500;
+  letter-spacing:0.04em;cursor:pointer;transition:all 0.2s;white-space:nowrap;
+}
+.suggest-btn:hover{border-color:rgba(229,57,53,0.5);color:#fff;background:rgba(229,57,53,0.1);}
+.ask-input-row {
+  display:flex;gap:0;border-top:1px solid var(--glass-border);
+}
+.ask-input {
+  flex:1;background:transparent;border:none;outline:none;
+  padding:1rem 1.25rem;color:#fff;font-family:var(--font-body);font-size:0.9rem;
+}
+.ask-input::placeholder{color:#444;}
+.ask-send {
+  background:var(--red);border:none;padding:0 1.25rem;
+  color:#fff;cursor:pointer;font-family:var(--font-ui);font-size:0.85rem;
+  font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  transition:box-shadow 0.2s;
+}
+.ask-send:hover{box-shadow:0 0 16px var(--red-glow);}
+
+/* ACHIEVEMENTS */
+#achievements{background:var(--bg2);}
+.achieve-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.achieve-card {
+  background:var(--bg3);border:1px solid var(--glass-border);
+  border-radius:6px;padding:1.5rem 1.2rem;text-align:center;
+  position:relative;overflow:hidden;transition:all 0.3s;cursor:default;
+}
+.achieve-card::before {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at center top,var(--red-dim),transparent 70%);
+  opacity:0;transition:opacity 0.3s;
+}
+.achieve-card:hover{border-color:rgba(229,57,53,0.4);transform:translateY(-4px);}
+.achieve-card:hover::before{opacity:1;}
+.achieve-icon{font-size:2rem;margin-bottom:10px;}
+.achieve-title{font-family:var(--font-ui);font-size:0.9rem;font-weight:700;color:#fff;margin-bottom:4px;}
+.achieve-desc{font-size:0.75rem;color:var(--muted);line-height:1.5;}
+.achieve-locked .achieve-icon{filter:grayscale(1);opacity:0.3;}
+.achieve-locked .achieve-title,.achieve-locked .achieve-desc{color:#333;}
+.achieve-locked{border-color:rgba(255,255,255,0.04);}
+
+/* LEGACY MODE */
+.legacy-banner {
+  background:linear-gradient(135deg,#0d0000,#1a0000,#0d0000);
+  border-top:1px solid rgba(229,57,53,0.2);
+  border-bottom:1px solid rgba(229,57,53,0.2);
+  padding:4rem 2rem;text-align:center;
+}
+.legacy-banner h2 {
+  font-family:var(--font-display);font-size:clamp(2rem,6vw,4rem);
+  color:#fff;letter-spacing:0.06em;margin-bottom:0.5rem;
+}
+.legacy-banner p{color:var(--muted);font-size:0.9rem;margin-bottom:2rem;}
+.legacy-btn {
+  background:transparent;color:var(--red);
+  border:1px solid var(--red);padding:14px 36px;border-radius:4px;
+  font-family:var(--font-display);font-size:1.2rem;letter-spacing:0.12em;
+  cursor:pointer;transition:all 0.3s;
+}
+.legacy-btn:hover {
+  background:var(--red);color:#fff;
+  box-shadow:0 0 40px var(--red-glow),0 0 80px rgba(229,57,53,0.2);
+}
+
+/* LEGACY MODE ACTIVE */
+body.legacy-mode {
+  --red:#FF0000;
+  --red-glow:rgba(255,0,0,0.5);
+  --bg:#000;--bg2:#050000;--bg3:#080000;
+  transition:background 0.8s;
+}
+body.legacy-mode .hero-bg-text{color:rgba(255,0,0,0.08);}
+body.legacy-mode nav{background:rgba(0,0,0,0.95);border-bottom-color:rgba(255,0,0,0.3);}
+.legacy-flash {
+  position:fixed;inset:0;background:var(--red);z-index:9999;
+  opacity:0;pointer-events:none;transition:opacity 0.1s;
+}
+
+/* FOOTER */
+footer {
+  background:var(--bg);border-top:1px solid var(--glass-border);
+  padding:2.5rem 2rem;text-align:center;
+}
+.footer-logo{font-family:var(--font-display);font-size:2rem;letter-spacing:0.08em;color:#fff;margin-bottom:0.5rem;}
+.footer-logo span{color:var(--red);}
+.footer-links{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;}
+.footer-links a{font-family:var(--font-ui);font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--red);}
+.footer-credit{font-size:0.8rem;color:#333;}
+.footer-credit span{color:var(--red);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes countUp{from{opacity:0;}to{opacity:1;}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--red-glow);}50%{box-shadow:0 0 0 8px transparent;}}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:0 1rem;}
+  .nav-links,.nav-cta{display:none;}
+  .hamburger{display:flex;}
+  nav.open .nav-links {
+    display:flex;flex-direction:column;
+    position:fixed;top:60px;left:0;right:0;
+    background:rgba(8,8,8,0.97);backdrop-filter:blur(16px);
+    padding:1.5rem 2rem;gap:1.2rem;
+    border-bottom:1px solid var(--glass-border);
+  }
+  nav.open .nav-cta{display:block;margin-top:0.5rem;width:100%;text-align:center;}
+  section{padding:4rem 1.2rem;}
+  .t-item{gap:1rem;padding-left:3rem;}
+  .t-year{font-size:1.8rem;min-width:70px;}
+  .hero-title{font-size:clamp(3.5rem,18vw,7rem);}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .achieve-grid{grid-template-columns:1fr 1fr;}
+  .gallery-grid{grid-template-columns:1fr 1fr;}
+}
+
+/* SOUND WAVE */
+.sound-indicator {
+  display:none;align-items:center;gap:3px;
+  position:fixed;bottom:1.5rem;right:1.5rem;
+  background:rgba(0,0,0,0.8);border:1px solid var(--glass-border);
+  padding:8px 14px;border-radius:4px;z-index:500;
+}
+.sound-indicator.show{display:flex;}
+.sound-bar {
+  width:3px;border-radius:1px;background:var(--red);
+  animation:soundAnim 0.4s ease-in-out infinite alternate;
+}
+.sound-bar:nth-child(2){animation-delay:0.1s;height:14px;}
+.sound-bar:nth-child(3){animation-delay:0.2s;height:10px;}
+.sound-bar:nth-child(4){animation-delay:0.05s;height:16px;}
+.sound-bar:nth-child(5){animation-delay:0.15s;height:8px;}
+.sound-label{font-family:var(--font-ui);font-size:0.7rem;letter-spacing:0.1em;color:var(--muted);margin-left:4px;text-transform:uppercase;}
+@keyframes soundAnim{from{height:4px;}to{height:18px;}}
+</style>
+</head>
+<body>
+
+<!-- LEGACY FLASH -->
+<div class="legacy-flash" id="legacyFlash"></div>
+
+<!-- SOUND INDICATOR -->
+<div class="sound-indicator" id="soundIndicator">
+  <div class="sound-bar" style="height:8px"></div>
+  <div class="sound-bar" style="height:14px"></div>
+  <div class="sound-bar" style="height:10px"></div>
+  <div class="sound-bar" style="height:16px"></div>
+  <div class="sound-bar" style="height:8px"></div>
+  <span class="sound-label">Stadium</span>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo">KOHLI<span>VERSE</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero" class="active">Home</a></li>
+    <li><a href="#stats">Stats</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#ask">Ask AI</a></li>
+    <li><a href="#achievements">Awards</a></li>
+  </ul>
+  <button class="nav-cta" onclick="scrollTo({top:0,behavior:'smooth'})">Enter Verse</button>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="particles-canvas"></canvas>
+  <div class="hero-bg-text">KING</div>
+  <div class="hero-content">
+    <div class="hero-badge">&#9733; The Greatest Batter of Our Era</div>
+    <h1 class="hero-title">
+      KOHLI<span class="accent">VERSE</span>
+    </h1>
+    <p class="hero-subtitle">Passion &nbsp;·&nbsp; Power &nbsp;·&nbsp; Performance</p>
+    <div class="hero-btns">
+      <a href="#stats" class="btn-primary">Explore Stats</a>
+      <a href="#ask" class="btn-glass">Ask KohliVerse</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">Numbers Don't Lie</div>
+      <h2 class="section-title">RECORDS</h2>
+      <p class="section-desc">A career built on consistency, hunger, and sheer excellence across all formats.</p>
+    </div>
+    <div class="stats-grid reveal">
+      <div class="stat-cell">
+        <div class="stat-num" data-target="27484">0</div>
+        <div class="stat-label">International Runs</div>
+        <div class="stat-sub">All formats combined</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num" data-target="80">0</div>
+        <div class="stat-label">Centuries</div>
+        <div class="stat-sub">Most by any batter</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num" data-target="594">0</div>
+        <div class="stat-label">Matches</div>
+        <div class="stat-sub">Test + ODI + T20I</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num" data-target="305">0</div>
+        <div class="stat-label">Fifties</div>
+        <div class="stat-sub">Half centuries</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num" data-target="50">0</div>
+        <div class="stat-label">ODI Tons</div>
+        <div class="stat-sub">Sachin's record broken</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num" data-target="30">0</div>
+        <div class="stat-label">Test Centuries</div>
+        <div class="stat-sub">Across 5 continents</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:3rem">
+      <h3 style="font-family:var(--font-ui);font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem;">Format-wise Breakdown</h3>
+      <div class="format-tabs">
+        <button class="ftab active" onclick="switchFormat('odi',this)">ODI</button>
+        <button class="ftab" onclick="switchFormat('test',this)">Test</button>
+        <button class="ftab" onclick="switchFormat('t20',this)">T20I</button>
+      </div>
+      <div id="odi" class="format-panel active">
+        <div class="perf-row"><span class="perf-label">Avg</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="88%"></div></div><span class="perf-val">58.18</span></div>
+        <div class="perf-row"><span class="perf-label">Runs</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="95%"></div></div><span class="perf-val">14181</span></div>
+        <div class="perf-row"><span class="perf-label">100s</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="72%"></div></div><span class="perf-val">50</span></div>
+        <div class="perf-row"><span class="perf-label">SR</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="70%"></div></div><span class="perf-val">93.49</span></div>
+      </div>
+      <div id="test" class="format-panel">
+        <div class="perf-row"><span class="perf-label">Avg</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="78%"></div></div><span class="perf-val">49.48</span></div>
+        <div class="perf-row"><span class="perf-label">Runs</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="75%"></div></div><span class="perf-val">9230</span></div>
+        <div class="perf-row"><span class="perf-label">100s</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="54%"></div></div><span class="perf-val">30</span></div>
+        <div class="perf-row"><span class="perf-label">SR</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="55%"></div></div><span class="perf-val">55.83</span></div>
+      </div>
+      <div id="t20" class="format-panel">
+        <div class="perf-row"><span class="perf-label">Avg</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="65%"></div></div><span class="perf-val">48.69</span></div>
+        <div class="perf-row"><span class="perf-label">Runs</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="58%"></div></div><span class="perf-val">4188</span></div>
+        <div class="perf-row"><span class="perf-label">100s</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="8%"></div></div><span class="perf-val">1</span></div>
+        <div class="perf-row"><span class="perf-label">SR</span><div class="perf-track"><div class="perf-fill" style="width:0%" data-w="82%"></div></div><span class="perf-val">137.97</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">The Journey</div>
+      <h2 class="section-title">LEGACY</h2>
+      <p class="section-desc">From a Delhi boy with a dream to the greatest of his generation.</p>
+    </div>
+    <div class="timeline-wrap">
+      <div class="timeline-line"></div>
+      <div class="t-item reveal">
+        <div class="t-dot-wrap"><div class="t-dot"></div></div>
+        <div class="t-year">2008</div>
+        <div class="t-content">
+          <div class="t-tag">Debut</div>
+          <div class="t-title">International Debut — Sri Lanka</div>
+          <div class="t-desc">Kohli enters the international arena as a teenager. Raw, hungry, and destined for greatness. Selected for the ODI squad after a stellar U-19 World Cup campaign.</div>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-dot-wrap"><div class="t-dot"></div></div>
+        <div class="t-year">2011</div>
+        <div class="t-content">
+          <div class="t-tag">World Cup</div>
+          <div class="t-title">ICC World Cup Champion &#127942;</div>
+          <div class="t-desc">India wins the World Cup at Wankhede after 28 years. Kohli scores a crucial 35 vs Pakistan. He escorts MS Dhoni to the crease — an iconic moment in cricket history.</div>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-dot-wrap"><div class="t-dot"></div></div>
+        <div class="t-year">2013</div>
+        <div class="t-content">
+          <div class="t-tag">Rise</div>
+          <div class="t-title">ICC #1 ODI Batter</div>
+          <div class="t-desc">Reaches the pinnacle of ODI rankings. His consistency across conditions and pressure situations makes him the most feared batter in world cricket.</div>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-dot-wrap"><div class="t-dot"></div></div>
+        <div class="t-year">2014</div>
+        <div class="t-content">
+          <div class="t-tag">Captaincy</div>
+          <div class="t-title">Test Captain of India &#128081;</div>
+          <div class="t-desc">Takes over Test captaincy from MS Dhoni mid-tour in Australia. Transforms India into a feared Test unit with an aggressive, never-say-die approach.</div>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-dot-wrap"><div class="t-dot"></div></div>
+        <div class="t-year">2016</div>
+        <div class="t-content">
+          <div class="t-tag">Peak Form</div>
+          <div class="t-title">973 Test Runs — Most in a Calendar Year</div>
+          <div class="t-desc">The year Kohli was unstoppable. ICC Cricketer of the Year, ICC Test Player of the Year. Destroyed every bowling attack on the planet with surgical precision.</div>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-dot-wrap"><div class="t-dot"></div></div>
+        <div class="t-year">2018</div>
+        <div class="t-content">
+          <div class="t-tag">ICC Awards</div>
+          <div class="t-title">Sir Garfield Sobers Trophy &#127942;</div>
+          <div class="t-desc">ICC Cricketer of the Year. 2018 saw Kohli score over 2,000 runs across formats. Won every ICC individual award in a single year — something no player has done before.</div>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-dot-wrap"><div class="t-dot"></div></div>
+        <div class="t-year">2023</div>
+        <div class="t-content">
+          <div class="t-tag">History</div>
+          <div class="t-title">50th ODI Century — Sachin's Record Broken &#127881;</div>
+          <div class="t-desc">Became the first batter to score 50 ODI centuries, surpassing Sachin Tendulkar's record of 49. The Wankhede stood still. India wept tears of joy. The GOAT had spoken.</div>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-dot-wrap"><div class="t-dot"></div></div>
+        <div class="t-year">2024</div>
+        <div class="t-content">
+          <div class="t-tag">T20 WC</div>
+          <div class="t-title">T20 World Cup Champion &#127942;</div>
+          <div class="t-desc">After years of wait, India wins the T20 World Cup in Barbados. Kohli's 76 in the final seals the trophy. He announces T20I retirement on the pitch, in tears. Legacy complete.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">The Moments</div>
+      <h2 class="section-title">GALLERY</h2>
+      <p class="section-desc">Iconic frames from a career that redefined excellence. Add your images to bring this to life.</p>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-card gcard-1">
+        <div class="gallery-placeholder">
+          <div class="emoji">🏏</div>
+          <div class="ph-label">Cover Drive</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-title">The Perfect Cover Drive</div>
+          <div class="gallery-overlay-cat">Celebration</div>
+        </div>
+      </div>
+      <div class="gallery-card gcard-2">
+        <div class="gallery-placeholder">
+          <div class="emoji">🏆</div>
+          <div class="ph-label">World Cup 2011</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-title">World Cup Glory</div>
+          <div class="gallery-overlay-cat">India Jersey</div>
+        </div>
+      </div>
+      <div class="gallery-card gcard-3">
+        <div class="gallery-placeholder">
+          <div class="emoji">🔴</div>
+          <div class="ph-label">RCB Anthem</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-title">Ee Sala Cup Namde</div>
+          <div class="gallery-overlay-cat">RCB Moments</div>
+        </div>
+      </div>
+      <div class="gallery-card gcard-4">
+        <div class="gallery-placeholder">
+          <div class="emoji">👑</div>
+          <div class="ph-label">Captain Kohli</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-title">Captain's Century</div>
+          <div class="gallery-overlay-cat">India Jersey</div>
+        </div>
+      </div>
+      <div class="gallery-card gcard-5">
+        <div class="gallery-placeholder">
+          <div class="emoji">🎯</div>
+          <div class="ph-label">50th Century</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-title">Record Breaker</div>
+          <div class="gallery-overlay-cat">Celebration</div>
+        </div>
+      </div>
+      <div class="gallery-card gcard-6">
+        <div class="gallery-placeholder">
+          <div class="emoji">🌟</div>
+          <div class="ph-label">T20 WC 2024</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-title">76 in the Final</div>
+          <div class="gallery-overlay-cat">Celebration</div>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center;color:#333;font-size:0.8rem;margin-top:1.5rem;font-family:var(--font-ui);letter-spacing:0.06em;">Replace placeholder cards with real images by adding &lt;img src="..."&gt; inside gallery-card divs</p>
+  </div>
+</section>
+
+<!-- ASK KOHLIVERSE -->
+<section id="ask">
+  <div class="container">
+    <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto 2.5rem;">
+      <div class="section-eyebrow" style="justify-content:center;">Powered by AI</div>
+      <h2 class="section-title">ASK KOHLIVERSE</h2>
+      <p class="section-desc" style="margin:0 auto;">Got a question about Virat Kohli? Ask anything — records, innings, moments, or just express your fandom.</p>
+    </div>
+    <div class="ask-wrap reveal">
+      <div class="ask-header">
+        <div class="ask-header-dot" style="animation:pulse 1.5s infinite;"></div>
+        <div class="ask-header-title">KohliVerse AI — Live</div>
+      </div>
+      <div class="chat-area" id="chatArea">
+        <div class="chat-msg bot">Namaste! 🏏 I'm <strong>KohliVerse AI</strong>. Ask me anything about Virat Kohli — his records, iconic innings, or why he's the GOAT. I'm here for it.</div>
+      </div>
+      <div class="ask-suggestions">
+        <button class="suggest-btn" onclick="askQuestion('Best innings ever?')">Best innings ever?</button>
+        <button class="suggest-btn" onclick="askQuestion('What is his highest score?')">Highest score?</button>
+        <button class="suggest-btn" onclick="askQuestion('How many centuries does he have?')">Total centuries?</button>
+        <button class="suggest-btn" onclick="askQuestion('Tell me about his IPL records')">IPL records?</button>
+        <button class="suggest-btn" onclick="askQuestion('Why is Kohli the GOAT?')">Why is he GOAT?</button>
+      </div>
+      <div class="ask-input-row">
+        <input type="text" class="ask-input" id="askInput" placeholder="Ask about Kohli..." onkeydown="if(event.key==='Enter')sendQuestion()">
+        <button class="ask-send" onclick="sendQuestion()">Ask ↗</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">Unlocked Trophies</div>
+      <h2 class="section-title">ACHIEVEMENTS</h2>
+      <p class="section-desc">Every accolade he's earned — and a few still in the making.</p>
+    </div>
+    <div class="achieve-grid reveal">
+      <div class="achieve-card">
+        <div class="achieve-icon">🏆</div>
+        <div class="achieve-title">World Cup Champion</div>
+        <div class="achieve-desc">2011 ODI &amp; 2024 T20 World Cup winner with Team India</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">👑</div>
+        <div class="achieve-title">ICC COTY 4x</div>
+        <div class="achieve-desc">ICC Sir Garfield Sobers Trophy — 2012, 2017, 2018, 2023</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">🎯</div>
+        <div class="achieve-title">50 ODI Centuries</div>
+        <div class="achieve-desc">Broke Sachin's all-time record — first ever to reach 50 ODI tons</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">🔥</div>
+        <div class="achieve-title">Fastest to 10K ODI</div>
+        <div class="achieve-desc">Reached 10,000 ODI runs in just 205 innings — a world record</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">⚡</div>
+        <div class="achieve-title">IPL Legend</div>
+        <div class="achieve-desc">6000+ IPL runs, multiple Orange Caps — RCB's all-time greatest</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">🌍</div>
+        <div class="achieve-title">Centuries on 5 Tours</div>
+        <div class="achieve-desc">Test centuries in England, Australia, SA, WI, SL — true world-class</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">📊</div>
+        <div class="achieve-title">ICC #1 All Formats</div>
+        <div class="achieve-desc">Ranked No.1 in both Test &amp; ODI batting simultaneously</div>
+      </div>
+      <div class="achieve-card achieve-locked">
+        <div class="achieve-icon">🔒</div>
+        <div class="achieve-title">Bharat Ratna?</div>
+        <div class="achieve-desc">The nation's highest honour — the journey is not over yet...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEGACY MODE BANNER -->
+<div class="legacy-banner">
+  <h2>VIRAT LEGACY MODE</h2>
+  <p>Activate cinematic dark mode &amp; stadium atmosphere. Warning: intense.</p>
+  <button class="legacy-btn" id="legacyBtn" onclick="toggleLegacyMode()">⚡ ACTIVATE LEGACY MODE</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">KOHLI<span>VERSE</span></div>
+  <div class="footer-links">
+    <a href="#hero">Home</a>
+    <a href="#stats">Stats</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#ask">Ask AI</a>
+    <a href="#achievements">Awards</a>
+  </div>
+  <p class="footer-credit">Made with <span>♥</span> by Aditya &nbsp;·&nbsp; KohliVerse &copy; 2025</p>
+</footer>
+
+<script>
+/* ─── PARTICLES ─── */
+(function(){
+  const c=document.getElementById('particles-canvas');
+  const ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  resize();window.addEventListener('resize',()=>{resize();init();});
+  function rand(a,b){return Math.random()*(b-a)+a;}
+  function init(){
+    pts=[];
+    const n=Math.floor(W*H/18000);
+    for(let i=0;i<n;i++){
+      pts.push({x:rand(0,W),y:rand(0,H),r:rand(0.4,1.8),
+        vx:rand(-0.15,0.15),vy:rand(-0.2,-0.05),
+        a:rand(0.1,0.6)});
+    }
+  }
+  init();
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(229,57,53,${p.a})`;
+      ctx.fill();
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.y<0)p.y=H;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+    });
+    // Draw connections
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<100){
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x,pts[i].y);
+          ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.strokeStyle=`rgba(229,57,53,${0.06*(1-dist/100)})`;
+          ctx.lineWidth=0.5;ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ─── NAV ─── */
+function toggleMenu(){
+  document.getElementById('navbar').classList.toggle('open');
+}
+window.addEventListener('scroll',function(){
+  const nav=document.getElementById('navbar');
+  nav.style.background=window.scrollY>60?'rgba(8,8,8,0.97)':'rgba(8,8,8,0.85)';
+  // active nav
+  const secs=['hero','stats','timeline','gallery','ask','achievements'];
+  let cur='hero';
+  secs.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&window.scrollY>=el.offsetTop-100)cur=id;
+  });
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.getAttribute('href')==='#'+cur);
+  });
+});
+
+/* ─── SCROLL REVEAL ─── */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      // animate counters
+      e.target.querySelectorAll('[data-target]').forEach(animateCounter);
+      // animate bars
+      e.target.querySelectorAll('.perf-fill[data-w]').forEach(b=>{
+        setTimeout(()=>b.style.width=b.dataset.w,100);
+      });
+    }
+  });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+/* ─── COUNTER ─── */
+function animateCounter(el){
+  const target=+el.dataset.target;
+  const dur=1800;const start=performance.now();
+  function step(now){
+    const p=Math.min((now-start)/dur,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent=Math.round(ease*target).toLocaleString();
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* ─── FORMAT TABS ─── */
+function switchFormat(id,btn){
+  document.querySelectorAll('.format-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  document.querySelectorAll('#'+id+' .perf-fill').forEach(b=>{
+    b.style.width='0%';
+    setTimeout(()=>b.style.width=b.dataset.w,50);
+  });
+}
+
+/* ─── ASK KOHLIVERSE ─── */
+const KB={
+  'best innings':['276 vs Sri Lanka in Ahmedabad 2009 (Test), 183 vs Pakistan in Asia Cup 2012, and 82* in T20 WC Final 2024 — each defining a different era of his greatness. 🏏'],
+  'highest score':['His highest international score is 254* in Test cricket vs South Africa in Pune (2019). In ODIs, it\'s 183 against Pakistan in the 2012 Asia Cup. The man scores big when it matters most. 💪'],
+  'how many centuries':['As of 2024, Virat Kohli has 80+ international centuries — 50 in ODIs, 30 in Tests, 1 in T20Is. He broke Sachin Tendulkar\'s ODI record of 49 centuries in November 2023. 🎯'],
+  'ipl records':['In IPL, Kohli has scored 8000+ runs for RCB — the most by any player in IPL history. He scored 973 runs in IPL 2016 alone — the most in a single season ever. 🔴'],
+  'why is he goat':['Consistency across all formats, all conditions, all eras. 80+ centuries. Record chaser. Pressure performer. He averages 58 in ODIs. Scored centuries in South Africa, England, Australia, and the Caribbean. He didn\'t just play cricket — he redefined what excellence looks like. 👑'],
+  'goat':['Same answer — Kohli is the GOAT because no one else has combined consistency, fitness, hunger, and class like him across 15+ years of international cricket at the highest level. 🐐'],
+  'rcb':['RCB — Royal Challengers Bangalore — is Kohli\'s IPL franchise since 2008. He is the heart and soul of the team. 8000+ runs, Captain for years, and still their most iconic player. Ee Sala Cup Namde! 🔴'],
+  't20 world cup':['India won the T20 World Cup 2024 in Barbados. Kohli scored 76 in the final vs South Africa and retired from T20Is that evening. He had waited 13 years for this. One of sport\'s most emotional moments. 🏆'],
+  'debut':['Virat Kohli made his ODI debut on 18 August 2008 against Sri Lanka in Dambulla. He scored 12 runs batting at #3. He had just returned from leading India to the 2008 U-19 World Cup victory. ✨'],
+  'captaincy':['Kohli became India\'s Test captain in 2014 and took over all formats in 2017. He is considered India\'s most aggressive and transformative captain — winning overseas series, building a culture of fitness, and making India the #1 Test team. 👑'],
+};
+function getBotReply(q){
+  const lower=q.toLowerCase();
+  for(const key in KB){
+    if(lower.includes(key))return KB[key][0];
+  }
+  return`Great question about "${q}"! Kohli's career has so many layers — from debut to 80+ centuries, every chapter is gold. For deep stats, check ESPNCricinfo or add the AI API to this site for real-time answers. 🌟`;
+}
+function appendMsg(text,cls){
+  const area=document.getElementById('chatArea');
+  const div=document.createElement('div');
+  div.className='chat-msg '+cls;
+  div.innerHTML=text;
+  area.appendChild(div);
+  area.scrollTop=area.scrollHeight;
+}
+function askQuestion(q){
+  document.getElementById('askInput').value=q;
+  sendQuestion();
+}
+function sendQuestion(){
+  const inp=document.getElementById('askInput');
+  const q=inp.value.trim();
+  if(!q)return;
+  appendMsg(q,'user');
+  inp.value='';
+  setTimeout(()=>{
+    appendMsg(getBotReply(q),'bot');
+  },500);
+}
+
+/* ─── LEGACY MODE ─── */
+let legacyActive=false;
+let stadiumAudio=null;
+function toggleLegacyMode(){
+  const flash=document.getElementById('legacyFlash');
+  const btn=document.getElementById('legacyBtn');
+  const si=document.getElementById('soundIndicator');
+  flash.style.opacity='0.6';
+  setTimeout(()=>flash.style.opacity='0',200);
+  legacyActive=!legacyActive;
+  document.body.classList.toggle('legacy-mode',legacyActive);
+  if(legacyActive){
+    btn.textContent='✕ DEACTIVATE LEGACY MODE';
+    si.classList.add('show');
+    // Stadium crowd sound via AudioContext
+    try{
+      const AudioCtx=window.AudioContext||window.webkitAudioContext;
+      stadiumAudio=new AudioCtx();
+      const buf=stadiumAudio.createBuffer(1,stadiumAudio.sampleRate*2,stadiumAudio.sampleRate);
+      const data=buf.getChannelData(0);
+      for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*0.15;
+      const src=stadiumAudio.createBufferSource();
+      src.buffer=buf;src.loop=true;
+      const gain=stadiumAudio.createGain();gain.gain.value=0.3;
+      src.connect(gain);gain.connect(stadiumAudio.destination);
+      src.start();
+      stadiumAudio._src=src;
+    }catch(e){}
+  } else {
+    btn.textContent='⚡ ACTIVATE LEGACY MODE';
+    si.classList.remove('show');
+    try{if(stadiumAudio&&stadiumAudio._src)stadiumAudio._src.stop();}catch(e){}
+  }
+}
+</script>
+</body>
+</html>
