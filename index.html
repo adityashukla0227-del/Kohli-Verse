@@ -21,7 +21,15 @@ body{
   overflow-x:hidden;
 }
 
-/* 🔥 LOADER */
+/* CANVAS BACKGROUND */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+/* LOADER */
 #loader{
   position:fixed;
   width:100%;
@@ -44,17 +52,15 @@ body{
 }
 
 @keyframes spin{
-  0%{transform:rotate(0deg);}
   100%{transform:rotate(360deg);}
 }
 
 #loader h1{
   margin-top:20px;
   color:#E53935;
-  letter-spacing:2px;
 }
 
-/* FADE IN */
+/* CONTENT */
 #content{
   opacity:0;
   transition:1s ease;
@@ -68,19 +74,13 @@ nav{
   position:fixed;
   width:100%;
   top:0;
-  background:rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.5);
   backdrop-filter: blur(10px);
-  z-index:1000;
+  z-index:100;
 }
 
 nav h2{
   color:#E53935;
-}
-
-nav a{
-  color:#aaa;
-  margin-left:20px;
-  text-decoration:none;
 }
 
 /* HERO */
@@ -92,16 +92,15 @@ nav a{
   padding:100px 50px 50px;
 }
 
-.hero-text h1{
+.hero h1{
   font-size:70px;
   color:#E53935;
-  animation:fade 1s ease-in;
 }
 
-.hero-text p{
+.hero p{
   color:#bbb;
-  margin-top:10px;
   max-width:400px;
+  margin-top:10px;
 }
 
 .btn{
@@ -112,19 +111,12 @@ nav a{
   color:#fff;
   border-radius:8px;
   cursor:pointer;
-  transition:0.3s;
-}
-
-.btn:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 20px #E53935;
 }
 
 .hero img{
   width:320px;
   border-radius:15px;
   box-shadow:0 0 30px #E53935;
-  animation:float 3s ease-in-out infinite;
 }
 
 /* SECTION */
@@ -135,7 +127,6 @@ nav a{
 .section h2{
   color:#E53935;
   margin-bottom:30px;
-  font-size:30px;
 }
 
 /* CARDS */
@@ -156,7 +147,7 @@ nav a{
 
 .card:hover{
   transform:translateY(-10px);
-  box-shadow:0 0 25px rgba(229,57,53,0.3);
+  box-shadow:0 0 25px rgba(229,57,53,0.4);
 }
 
 .card h3{
@@ -171,13 +162,12 @@ nav a{
 }
 
 .event{
-  margin-bottom:20px;
+  margin-bottom:15px;
   color:#ccc;
 }
 
 .event span{
   color:#E53935;
-  font-weight:600;
 }
 
 /* FOOTER */
@@ -185,18 +175,6 @@ footer{
   text-align:center;
   padding:20px;
   color:#666;
-  border-top:1px solid #222;
-}
-
-/* ANIMATIONS */
-@keyframes float{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-15px);}
-}
-
-@keyframes fade{
-  from{opacity:0;transform:translateY(20px);}
-  to{opacity:1;transform:translateY(0);}
 }
 
 /* RESPONSIVE */
@@ -206,12 +184,8 @@ footer{
     text-align:center;
   }
 
-  .hero-text h1{
+  .hero h1{
     font-size:45px;
-  }
-
-  nav{
-    padding:15px 20px;
   }
 }
 </style>
@@ -220,39 +194,36 @@ footer{
 
 <body>
 
+<!-- 🌌 PARTICLE CANVAS -->
+<canvas id="bg"></canvas>
+
 <!-- 🔥 LOADER -->
 <div id="loader">
   <div class="spinner"></div>
   <h1>KohliVerse Loading...</h1>
 </div>
 
-<!-- MAIN CONTENT -->
+<!-- CONTENT -->
 <div id="content">
 
 <!-- NAV -->
 <nav>
   <h2>KohliVerse</h2>
-  <div>
-    <a href="#timeline">Timeline</a>
-    <a href="#stats">Stats</a>
-  </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-text">
+  <div>
     <h1>KohliVerse</h1>
-    <p>The Ultimate Digital Journey of Virat Kohli — Records, Passion & Legacy.</p>
-    <button class="btn" onclick="document.getElementById('stats').scrollIntoView({behavior:'smooth'})">
-      Explore Stats
-    </button>
+    <p>The Legacy of Passion, Power & Performance</p>
+    <button class="btn">Explore</button>
   </div>
 
-  <img src="https://i.imgur.com/3ZQ3ZQF.png" alt="Virat Kohli">
+  <img src="https://i.imgur.com/3ZQ3ZQF.png">
 </div>
 
 <!-- STATS -->
-<div class="section" id="stats">
+<div class="section">
   <h2>Records Dashboard</h2>
 
   <div class="grid">
@@ -274,57 +245,86 @@ footer{
 </div>
 
 <!-- TIMELINE -->
-<div class="section" id="timeline">
+<div class="section">
   <h2>Career Timeline</h2>
 
   <div class="timeline">
-    <div class="event"><span>2008</span> - ODI Debut 🏏</div>
-    <div class="event"><span>2011</span> - World Cup Winner 🏆</div>
-    <div class="event"><span>2013</span> - Captaincy Rise</div>
-    <div class="event"><span>2016</span> - Peak Form 🔥</div>
-    <div class="event"><span>2018</span> - ICC Awards Sweep 👑</div>
-    <div class="event"><span>2023+</span> - Modern Legend</div>
+    <div class="event"><span>2008</span> ODI Debut 🏏</div>
+    <div class="event"><span>2011</span> World Cup 🏆</div>
+    <div class="event"><span>2016</span> Peak Form 🔥</div>
+    <div class="event"><span>2018</span> ICC Awards 👑</div>
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
-  Made with ❤️ by Aditya | KohliVerse Fan Project
+Made with ❤️ by Aditya | KohliVerse
 </footer>
 
 </div>
 
 <script>
-// 🔥 LOADER LOGIC
-window.onload = function(){
+// LOADER
+window.onload = ()=>{
   setTimeout(()=>{
-    document.getElementById("loader").style.display = "none";
-    document.getElementById("content").style.opacity = "1";
-  },1500);
+    document.getElementById("loader").style.display="none";
+    document.getElementById("content").style.opacity="1";
+  },1200);
 };
 
-// COUNTER ANIMATION
-const counters = document.querySelectorAll(".counter");
-
-counters.forEach(counter=>{
-  counter.innerText = "0";
-
-  const update = ()=>{
-    const target = +counter.getAttribute("data-target");
-    const current = +counter.innerText;
-
-    const inc = target / 80;
-
-    if(current < target){
-      counter.innerText = Math.ceil(current + inc);
+// COUNTERS
+document.querySelectorAll(".counter").forEach(c=>{
+  let update=()=>{
+    let t=+c.getAttribute("data-target");
+    let v=+c.innerText;
+    let inc=t/80;
+    if(v<t){
+      c.innerText=Math.ceil(v+inc);
       setTimeout(update,20);
-    } else {
-      counter.innerText = target;
-    }
+    } else c.innerText=t;
   }
-
   update();
 });
+
+// 🌌 PARTICLE BACKGROUND
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+for(let i=0;i<80;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*2,
+    dx:(Math.random()-0.5)*0.5,
+    dy:(Math.random()-0.5)*0.5
+  });
+}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle="#E53935";
+
+  particles.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+
+    p.x+=p.dx;
+    p.y+=p.dy;
+
+    if(p.x<0||p.x>canvas.width)p.dx*=-1;
+    if(p.y<0||p.y>canvas.height)p.dy*=-1;
+  });
+
+  requestAnimationFrame(draw);
+}
+
+draw();
 </script>
 
 </body>
