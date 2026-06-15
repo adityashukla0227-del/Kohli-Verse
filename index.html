@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KohliVerse</title>
 
+<!-- AOS -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<!-- FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
@@ -21,49 +28,12 @@ body{
   overflow-x:hidden;
 }
 
-/* CANVAS BACKGROUND */
+/* CANVAS */
 canvas{
   position:fixed;
   top:0;
   left:0;
   z-index:-1;
-}
-
-/* LOADER */
-#loader{
-  position:fixed;
-  width:100%;
-  height:100vh;
-  background:#0a0a0a;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-.spinner{
-  width:60px;
-  height:60px;
-  border:4px solid #222;
-  border-top:4px solid #E53935;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-  100%{transform:rotate(360deg);}
-}
-
-#loader h1{
-  margin-top:20px;
-  color:#E53935;
-}
-
-/* CONTENT */
-#content{
-  opacity:0;
-  transition:1s ease;
 }
 
 /* NAV */
@@ -75,12 +45,13 @@ nav{
   width:100%;
   top:0;
   background:rgba(0,0,0,0.5);
-  backdrop-filter: blur(10px);
-  z-index:100;
+  backdrop-filter:blur(10px);
+  z-index:1000;
 }
 
 nav h2{
   color:#E53935;
+  opacity:0;
 }
 
 /* HERO */
@@ -89,7 +60,7 @@ nav h2{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:100px 50px 50px;
+  padding:120px 50px 50px;
 }
 
 .hero h1{
@@ -111,6 +82,12 @@ nav h2{
   color:#fff;
   border-radius:8px;
   cursor:pointer;
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 20px #E53935;
 }
 
 .hero img{
@@ -140,14 +117,14 @@ nav h2{
   background:rgba(255,255,255,0.05);
   padding:25px;
   border-radius:15px;
-  backdrop-filter: blur(10px);
+  backdrop-filter:blur(10px);
   text-align:center;
   transition:0.3s;
 }
 
 .card:hover{
-  transform:translateY(-10px);
-  box-shadow:0 0 25px rgba(229,57,53,0.4);
+  transform:translateY(-12px) scale(1.03);
+  box-shadow:0 0 30px rgba(229,57,53,0.4);
 }
 
 .card h3{
@@ -164,6 +141,9 @@ nav h2{
 .event{
   margin-bottom:15px;
   color:#ccc;
+  opacity:0;
+  transform:translateX(-30px);
+  transition:0.5s;
 }
 
 .event span{
@@ -194,17 +174,8 @@ footer{
 
 <body>
 
-<!-- 🌌 PARTICLE CANVAS -->
+<!-- CANVAS -->
 <canvas id="bg"></canvas>
-
-<!-- 🔥 LOADER -->
-<div id="loader">
-  <div class="spinner"></div>
-  <h1>KohliVerse Loading...</h1>
-</div>
-
-<!-- CONTENT -->
-<div id="content">
 
 <!-- NAV -->
 <nav>
@@ -214,8 +185,8 @@ footer{
 <!-- HERO -->
 <div class="hero">
   <div>
-    <h1>KohliVerse</h1>
-    <p>The Legacy of Passion, Power & Performance</p>
+    <h1 id="title">KohliVerse</h1>
+    <p id="subtitle">The Legacy of Passion, Power & Performance</p>
     <button class="btn">Explore</button>
   </div>
 
@@ -223,29 +194,29 @@ footer{
 </div>
 
 <!-- STATS -->
-<div class="section">
+<div class="section" data-aos="fade-up">
   <h2>Records Dashboard</h2>
 
   <div class="grid">
-    <div class="card">
-      <h3 class="counter" data-target="27000">0</h3>
+    <div class="card" data-aos="zoom-in">
+      <h3>27000+</h3>
       <p>Runs</p>
     </div>
 
-    <div class="card">
-      <h3 class="counter" data-target="80">0</h3>
+    <div class="card" data-aos="zoom-in" data-aos-delay="100">
+      <h3>80+</h3>
       <p>Centuries</p>
     </div>
 
-    <div class="card">
-      <h3 class="counter" data-target="500">0</h3>
+    <div class="card" data-aos="zoom-in" data-aos-delay="200">
+      <h3>500+</h3>
       <p>Matches</p>
     </div>
   </div>
 </div>
 
 <!-- TIMELINE -->
-<div class="section">
+<div class="section" data-aos="fade-up">
   <h2>Career Timeline</h2>
 
   <div class="timeline">
@@ -260,32 +231,31 @@ footer{
 Made with ❤️ by Aditya | KohliVerse
 </footer>
 
-</div>
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
-// LOADER
-window.onload = ()=>{
-  setTimeout(()=>{
-    document.getElementById("loader").style.display="none";
-    document.getElementById("content").style.opacity="1";
-  },1200);
-};
+AOS.init();
 
-// COUNTERS
-document.querySelectorAll(".counter").forEach(c=>{
-  let update=()=>{
-    let t=+c.getAttribute("data-target");
-    let v=+c.innerText;
-    let inc=t/80;
-    if(v<t){
-      c.innerText=Math.ceil(v+inc);
-      setTimeout(update,20);
-    } else c.innerText=t;
-  }
-  update();
+/* GSAP INTRO */
+gsap.from("#title", {
+  y: 50,
+  opacity: 0,
+  duration: 1
 });
 
-// 🌌 PARTICLE BACKGROUND
+gsap.from("#subtitle", {
+  y: 30,
+  opacity: 0,
+  delay: 0.3
+});
+
+gsap.from("nav h2", {
+  opacity: 0,
+  duration: 1
+});
+
+/* CANVAS PARTICLES */
 const canvas=document.getElementById("bg");
 const ctx=canvas.getContext("2d");
 
@@ -294,17 +264,17 @@ canvas.height=window.innerHeight;
 
 let particles=[];
 
-for(let i=0;i<80;i++){
+for(let i=0;i<70;i++){
   particles.push({
     x:Math.random()*canvas.width,
     y:Math.random()*canvas.height,
     r:Math.random()*2,
-    dx:(Math.random()-0.5)*0.5,
-    dy:(Math.random()-0.5)*0.5
+    dx:(Math.random()-0.5)*0.6,
+    dy:(Math.random()-0.5)*0.6
   });
 }
 
-function draw(){
+function animate(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
   ctx.fillStyle="#E53935";
@@ -321,10 +291,21 @@ function draw(){
     if(p.y<0||p.y>canvas.height)p.dy*=-1;
   });
 
-  requestAnimationFrame(draw);
+  requestAnimationFrame(animate);
 }
 
-draw();
+animate();
+
+/* TRIGGER TIMELINE ANIMATION */
+window.addEventListener("scroll",()=>{
+  document.querySelectorAll(".event").forEach(el=>{
+    const top=el.getBoundingClientRect().top;
+    if(top<window.innerHeight-100){
+      el.style.opacity=1;
+      el.style.transform="translateX(0)";
+    }
+  });
+});
 </script>
 
 </body>
